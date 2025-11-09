@@ -1,0 +1,289 @@
+Perfect 🔥 Let’s begin with **Part 1 (Questions 1–6)** — both main & OR answers.
+Each program is **short, clear, and practical-ready**.
+
+---
+
+## 🧩 **Q1. Library Book Borrowing System**
+
+### (Main)
+
+```python
+books = {"BookA": 5, "BookB": 2, "BookC": 0, "BookD": 7}
+members = [3, 0, 2, 5, 0]
+
+avg = sum(members) / len(members)
+high = max(books, key=books.get)
+low = min(books, key=books.get)
+zero = members.count(0)
+mode = max(set(books.values()), key=list(books.values()).count)
+
+print("Average Books Borrowed:", avg)
+print("Highest Borrowed Book:", high)
+print("Lowest Borrowed Book:", low)
+print("Members with 0 books:", zero)
+print("Most Frequently Borrowed Count:", mode)
+```
+
+**Explanation:** Uses dictionary for borrowings; O(n) time.
+
+---
+
+### (OR) **Student Record Management using Linked List**
+
+```python
+class Node:
+    def __init__(self, roll, name, marks):
+        self.roll, self.name, self.marks = roll, name, marks
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def add(self, roll, name, marks):
+        new = Node(roll, name, marks)
+        new.next = self.head
+        self.head = new
+
+    def display(self):
+        temp = self.head
+        while temp:
+            print(temp.roll, temp.name, temp.marks)
+            temp = temp.next
+
+s = LinkedList()
+s.add(1, "A", 90)
+s.add(2, "B", 80)
+s.display()
+```
+
+**Explanation:** Singly linked list for student records.
+
+---
+
+## 🧩 **Q2. Search Customer Account IDs**
+
+### (Main)
+
+```python
+ids = [101, 105, 110, 120, 130]
+key = 110
+
+# Linear search
+found = key in ids
+print("Linear Search:", found)
+
+# Binary search
+def binary_search(arr, x):
+    low, high = 0, len(arr)-1
+    while low <= high:
+        mid = (low+high)//2
+        if arr[mid] == x: return True
+        elif arr[mid] < x: low = mid+1
+        else: high = mid-1
+    return False
+
+print("Binary Search:", binary_search(ids, key))
+```
+
+**Explanation:** Linear O(n), Binary O(log n).
+
+---
+
+### (OR) **Expression Tree from Prefix**
+
+```python
+class Node:
+    def __init__(self, val): self.val, self.left, self.right = val, None, None
+
+def construct(expr):
+    stack = []
+    for ch in reversed(expr):
+        n = Node(ch)
+        if ch in "+-*/":
+            n.left = stack.pop()
+            n.right = stack.pop()
+        stack.append(n)
+    return stack[0]
+
+def postorder(root):
+    if root:
+        postorder(root.left)
+        postorder(root.right)
+        print(root.val, end=" ")
+
+expr = "+--a*bc/def"
+root = construct(expr)
+postorder(root)
+```
+
+**Explanation:** Prefix → Tree → Postorder traversal.
+
+---
+
+## 🧩 **Q3. Employee Salaries (Sorting)**
+
+### (Main)
+
+```python
+sal = [40000, 25000, 50000, 30000, 45000]
+
+# Selection Sort
+for i in range(len(sal)):
+    min_i = i
+    for j in range(i+1, len(sal)):
+        if sal[j] < sal[min_i]: min_i = j
+    sal[i], sal[min_i] = sal[min_i], sal[i]
+print("Selection Sort:", sal)
+
+# Bubble Sort
+bub = sal[:]
+for i in range(len(bub)-1):
+    for j in range(len(bub)-i-1):
+        if bub[j] > bub[j+1]:
+            bub[j], bub[j+1] = bub[j+1], bub[j]
+print("Top 5 salaries:", sorted(bub)[-5:])
+```
+
+**Explanation:** Selection/Bubble Sort both O(n²).
+
+---
+
+### (OR) **Binary Search Tree**
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data, self.left, self.right = data, None, None
+
+def insert(root, val):
+    if not root: return Node(val)
+    if val < root.data: root.left = insert(root.left, val)
+    else: root.right = insert(root.right, val)
+    return root
+
+def inorder(root):
+    if root:
+        inorder(root.left)
+        print(root.data, end=" ")
+        inorder(root.right)
+
+root = None
+for i in [50, 30, 70, 20, 40]:
+    root = insert(root, i)
+print("Inorder:", end=" ")
+inorder(root)
+```
+
+**Explanation:** BST insertion and traversal.
+
+---
+
+## 🧩 **Q4. Undo/Redo Using Stack**
+
+### (Main)
+
+```python
+undo, redo = [], []
+doc = ""
+
+def make_change(change):
+    global doc
+    undo.append(doc)
+    doc += change
+
+def undo_action():
+    global doc
+    if undo:
+        redo.append(doc)
+        doc = undo.pop()
+
+def redo_action():
+    global doc
+    if redo:
+        undo.append(doc)
+        doc = redo.pop()
+
+make_change("Hi ")
+make_change("there!")
+undo_action()
+redo_action()
+print("Document:", doc)
+```
+
+**Explanation:** Uses two stacks to simulate undo/redo.
+
+---
+
+### (OR) **Pizza Delivery Graph**
+
+```python
+graph = {
+    'A': {'B': 2, 'C': 3},
+    'B': {'C': 1, 'D': 4},
+    'C': {'D': 2},
+    'D': {}
+}
+
+visited = []
+def dfs(node):
+    if node not in visited:
+        visited.append(node)
+        for n in graph[node]:
+            dfs(n)
+dfs('A')
+print("Visit Order:", visited)
+```
+
+**Explanation:** DFS used to minimize delivery path.
+
+---
+
+## 🧩 **Q5. Event Queue**
+
+### (Main)
+
+```python
+from collections import deque
+queue = deque()
+
+def add_event(e): queue.append(e)
+def process_event(): 
+    if queue: print("Processed:", queue.popleft())
+def cancel_event(e):
+    if e in queue: queue.remove(e)
+
+add_event("Login")
+add_event("Click")
+cancel_event("Click")
+add_event("Logout")
+process_event()
+print("Pending:", list(queue))
+```
+
+**Explanation:** Queue operations (enqueue/dequeue).
+
+---
+
+### (OR) **Undo/Redo (Repeated)**
+
+✅ Use same code as Q4 main — same logic, valid for both.
+
+---
+
+## 🧩 **Q6. Student Record (Linked List)**
+
+### (Main)
+
+(Same as Q1 OR — copy that linked list program)
+
+---
+
+### (OR) **Expression Tree (Prefix)**
+
+(Same as Q2 OR — reuse that expression tree program)
+
+---
+
+✅ **End of Part 1 (Q1–Q6)**
+Would you like me to continue with **Part 2 (Q7–Q12)** now?
