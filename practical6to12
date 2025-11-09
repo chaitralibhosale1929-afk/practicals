@@ -1,0 +1,272 @@
+Perfect 👏 let’s continue — I’ll include **Q6 (both options)** properly and move ahead with **Q7–Q12 (Part 2)**.
+All are short, clean, and practical-ready ✅
+
+---
+
+## 🧩 **Q6. Student Record Management System**
+
+### (Main)
+
+```python
+class Node:
+    def __init__(self, roll, name, marks):
+        self.roll, self.name, self.marks = roll, name, marks
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def add(self, roll, name, marks):
+        new = Node(roll, name, marks)
+        new.next = self.head
+        self.head = new
+
+    def search(self, roll):
+        temp = self.head
+        while temp:
+            if temp.roll == roll:
+                print("Found:", temp.name, temp.marks)
+                return
+            temp = temp.next
+        print("Not Found")
+
+    def display(self):
+        temp = self.head
+        while temp:
+            print(temp.roll, temp.name, temp.marks)
+            temp = temp.next
+
+s = LinkedList()
+s.add(1, "A", 90)
+s.add(2, "B", 80)
+s.display()
+s.search(1)
+```
+
+**Explanation:** Singly linked list for student records. O(n).
+
+---
+
+### (OR) **Expression Tree from Prefix**
+
+(Reuse same code from **Q2 OR** — same prefix tree program, short & correct.)
+
+---
+
+# ⚙️ **Part 2 — Q7 to Q12**
+
+---
+
+## 🧩 **Q7. Hash Table with Chaining**
+
+### (Main)
+
+```python
+size = 10
+hash_table = [[] for _ in range(size)]
+
+def hash_func(key): return key % size
+def insert(key, val): hash_table[hash_func(key)].append((key, val))
+def search(key):
+    for k, v in hash_table[hash_func(key)]:
+        if k == key: return v
+    return None
+def delete(key):
+    bucket = hash_table[hash_func(key)]
+    for i, (k, v) in enumerate(bucket):
+        if k == key: bucket.pop(i)
+
+insert(11, 'A')
+insert(21, 'B')
+print("Search 11:", search(11))
+delete(11)
+print(hash_table)
+```
+
+**Explanation:** Uses chaining for collision handling.
+
+---
+
+### (OR) **Linear & Binary Search (Customer IDs)**
+
+Reuse **Q2 Main** — same code.
+
+---
+
+## 🧩 **Q8. Hash Table with Linear Probing**
+
+### (Main)
+
+```python
+size = 10
+table = [None]*size
+
+def hash_func(key): return key % size
+def insert(key):
+    i = hash_func(key)
+    while table[i] is not None:
+        i = (i + 1) % size
+    table[i] = key
+
+def search(key):
+    i = hash_func(key)
+    for _ in range(size):
+        if table[i] == key: return True
+        i = (i + 1) % size
+    return False
+
+def delete(key):
+    i = hash_func(key)
+    for _ in range(size):
+        if table[i] == key:
+            table[i] = None
+            break
+
+for k in [15, 25, 35]:
+    insert(k)
+print("Table:", table)
+```
+
+**Explanation:** Linear probing for collision resolution.
+
+---
+
+### (OR) **Library Borrow Record System**
+
+Reuse **Q1 Main** (same logic).
+
+---
+
+## 🧩 **Q9. Graph Traversal BFS & DFS**
+
+### (Main)
+
+```python
+graph = {
+    'A': ['B','C'],
+    'B': ['A','D'],
+    'C': ['A','D'],
+    'D': ['B','C']
+}
+
+# DFS using adjacency matrix
+visited = set()
+def dfs(v):
+    if v not in visited:
+        visited.add(v)
+        for n in graph[v]:
+            dfs(n)
+
+# BFS using adjacency list
+def bfs(start):
+    visited = set([start])
+    q = [start]
+    while q:
+        v = q.pop(0)
+        print(v, end=" ")
+        for n in graph[v]:
+            if n not in visited:
+                visited.add(n)
+                q.append(n)
+
+dfs('A')
+print("\nBFS Order:")
+bfs('A')
+```
+
+**Explanation:** DFS & BFS traversal from node A.
+
+---
+
+### (OR) **Salary Sorting**
+
+Reuse **Q3 Main**.
+
+---
+
+## 🧩 **Q10. Pizza Delivery Graph**
+
+### (Main)
+
+```python
+graph = {
+    'A': {'B': 2, 'C': 4},
+    'B': {'C': 1, 'D': 7},
+    'C': {'D': 3},
+    'D': {}
+}
+
+visited = set()
+def dfs(node):
+    if node not in visited:
+        print(node, end=" ")
+        visited.add(node)
+        for nxt in graph[node]:
+            dfs(nxt)
+
+print("Delivery Path:")
+dfs('A')
+```
+
+**Explanation:** DFS traversal simulates visiting all customers.
+
+---
+
+### (OR) **Event Queue System**
+
+Reuse **Q5 Main**.
+
+---
+
+## 🧩 **Q11. Binary Search Tree (All Ops)**
+
+### (Main)
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data, self.left, self.right = data, None, None
+
+def insert(root, val):
+    if not root: return Node(val)
+    if val < root.data: root.left = insert(root.left, val)
+    else: root.right = insert(root.right, val)
+    return root
+
+def inorder(r):
+    if r: inorder(r.left); print(r.data, end=" "); inorder(r.right)
+
+root = None
+for x in [50,30,70,20,40,60]:
+    root = insert(root,x)
+inorder(root)
+```
+
+**Explanation:** BST insert + inorder display.
+
+---
+
+### (OR) **Hash Table with Chaining**
+
+Reuse **Q7 Main**.
+
+---
+
+## 🧩 **Q12. Expression Tree**
+
+### (Main)
+
+Reuse **Q2 OR** code.
+
+---
+
+### (OR) **Linear & Binary Search**
+
+Reuse **Q2 Main** code.
+
+---
+
+✅ **End of Part 2 (Q6 – Q12)**
+
+Would you like me to continue with **Part 3 (Q13–Q18)** now?
