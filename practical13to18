@@ -1,0 +1,318 @@
+Perfect 🔥
+Let’s go ahead with **Part 3 (Q13–Q18)** — all short, correct, and ready to write in your *DS using Python* practical notebook.
+
+---
+
+## 🧩 **Q13. Create & Display Graph using Adjacency Matrix**
+
+### (Main)
+
+```python
+v = int(input("Enter vertices: "))
+matrix = [[0]*v for _ in range(v)]
+
+for i in range(v):
+    for j in range(v):
+        matrix[i][j] = int(input(f"Edge {i}->{j} (1/0): "))
+
+print("Adjacency Matrix:")
+for row in matrix:
+    print(row)
+```
+
+**Explanation:** Stores connections between vertices (1 = edge).
+
+---
+
+### (OR) **Adjacency List Representation**
+
+```python
+graph = {}
+v = int(input("Vertices: "))
+for _ in range(v):
+    node = input("Node: ")
+    edges = input("Connected to (space-separated): ").split()
+    graph[node] = edges
+
+print("Adjacency List:")
+for k, v in graph.items():
+    print(k, ":", v)
+```
+
+**Explanation:** Uses dictionary for adjacency list representation.
+
+---
+
+## 🧩 **Q14. Dijkstra’s Shortest Path Algorithm**
+
+### (Main)
+
+```python
+import heapq
+
+def dijkstra(graph, start):
+    dist = {node: float('inf') for node in graph}
+    dist[start] = 0
+    pq = [(0, start)]
+
+    while pq:
+        d, node = heapq.heappop(pq)
+        for neigh, cost in graph[node].items():
+            if dist[neigh] > d + cost:
+                dist[neigh] = d + cost
+                heapq.heappush(pq, (dist[neigh], neigh))
+    return dist
+
+graph = {
+    'A': {'B': 1, 'C': 4},
+    'B': {'C': 2, 'D': 5},
+    'C': {'D': 1},
+    'D': {}
+}
+
+print(dijkstra(graph, 'A'))
+```
+
+**Explanation:** Finds shortest distance from start to all nodes.
+
+---
+
+### (OR) **Kruskal’s Minimum Spanning Tree**
+
+```python
+edges = [('A','B',1),('A','C',4),('B','C',2),('C','D',1)]
+parent = {}
+
+def find(v):
+    if parent[v] != v: parent[v] = find(parent[v])
+    return parent[v]
+
+def union(a,b):
+    rootA, rootB = find(a), find(b)
+    parent[rootB] = rootA
+
+for u,v,w in edges:
+    parent[u], parent[v] = u, v
+
+mst = []
+for u,v,w in sorted(edges, key=lambda x:x[2]):
+    if find(u) != find(v):
+        union(u,v)
+        mst.append((u,v,w))
+
+print("MST:", mst)
+```
+
+**Explanation:** Selects minimum-weight edges without cycles.
+
+---
+
+## 🧩 **Q15. Queue using Linked List**
+
+### (Main)
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data, self.next = data, None
+
+class Queue:
+    def __init__(self):
+        self.front = self.rear = None
+
+    def enqueue(self, data):
+        new = Node(data)
+        if not self.rear:
+            self.front = self.rear = new
+            return
+        self.rear.next = new
+        self.rear = new
+
+    def dequeue(self):
+        if not self.front: return None
+        val = self.front.data
+        self.front = self.front.next
+        return val
+
+q = Queue()
+q.enqueue(10)
+q.enqueue(20)
+print("Dequeued:", q.dequeue())
+```
+
+**Explanation:** Linked list-based queue.
+
+---
+
+### (OR) **Queue using Array**
+
+```python
+q = []
+q.append(1)
+q.append(2)
+print("Removed:", q.pop(0))
+print("Queue:", q)
+```
+
+**Explanation:** Simple queue with Python list.
+
+---
+
+## 🧩 **Q16. Stack using Linked List**
+
+### (Main)
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data, self.next = data, None
+
+class Stack:
+    def __init__(self):
+        self.top = None
+
+    def push(self, data):
+        new = Node(data)
+        new.next = self.top
+        self.top = new
+
+    def pop(self):
+        if not self.top: return None
+        val = self.top.data
+        self.top = self.top.next
+        return val
+
+s = Stack()
+s.push(10)
+s.push(20)
+print("Popped:", s.pop())
+```
+
+**Explanation:** Stack operations using linked list.
+
+---
+
+### (OR) **Stack using Array**
+
+```python
+stack = []
+stack.append(5)
+stack.append(10)
+print("Popped:", stack.pop())
+print("Stack:", stack)
+```
+
+**Explanation:** Stack implementation using list append & pop.
+
+---
+
+## 🧩 **Q17. Circular Queue**
+
+### (Main)
+
+```python
+size = 5
+cq = [None]*size
+front = rear = -1
+
+def enqueue(val):
+    global rear, front
+    if (rear+1)%size == front:
+        print("Full")
+    else:
+        if front == -1: front = 0
+        rear = (rear+1)%size
+        cq[rear] = val
+
+def dequeue():
+    global front, rear
+    if front == -1:
+        print("Empty")
+    elif front == rear:
+        front = rear = -1
+    else:
+        front = (front+1)%size
+
+enqueue(10); enqueue(20)
+dequeue()
+print(cq)
+```
+
+**Explanation:** Queue wraps around circularly.
+
+---
+
+### (OR) **Priority Queue**
+
+```python
+import heapq
+pq = []
+heapq.heappush(pq, (2, "B"))
+heapq.heappush(pq, (1, "A"))
+print(heapq.heappop(pq))
+```
+
+**Explanation:** Smallest priority value is served first.
+
+---
+
+## 🧩 **Q18. Infix to Postfix Conversion**
+
+### (Main)
+
+```python
+def precedence(op):
+    return 1 if op in '+-' else 2 if op in '*/' else 0
+
+def infix_to_postfix(exp):
+    stack, out = [], ''
+    for ch in exp:
+        if ch.isalnum():
+            out += ch
+        elif ch == '(':
+            stack.append(ch)
+        elif ch == ')':
+            while stack and stack[-1] != '(':
+                out += stack.pop()
+            stack.pop()
+        else:
+            while stack and precedence(ch) <= precedence(stack[-1]):
+                out += stack.pop()
+            stack.append(ch)
+    while stack:
+        out += stack.pop()
+    return out
+
+print(infix_to_postfix("A*(B+C)"))
+```
+
+**Explanation:** Converts infix expression to postfix using stack.
+
+---
+
+### (OR) **Postfix Evaluation**
+
+```python
+def eval_postfix(exp):
+    s = []
+    for ch in exp:
+        if ch.isdigit():
+            s.append(int(ch))
+        else:
+            b, a = s.pop(), s.pop()
+            if ch == '+': s.append(a+b)
+            elif ch == '-': s.append(a-b)
+            elif ch == '*': s.append(a*b)
+            elif ch == '/': s.append(a/b)
+    return s[0]
+
+print(eval_postfix("23*54*+"))
+```
+
+**Explanation:** Evaluates postfix using stack.
+
+---
+
+✅ **End of Part 3 (Q13–Q18)**
+
+Do you want me to send **Part 4 (Q19–Q24 — last part)** now?
